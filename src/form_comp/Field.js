@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import SelectDropDown from './SelectDropDown';
 
 
 class Field extends Component {
@@ -10,6 +10,8 @@ class Field extends Component {
                 {this.props.elementName === "input" ?
                     <input
                         className="form-control"
+                        maxLength={this.props.maxLimit}
+                        pattern="[A-Za-z]{3}"
                         id={this.props.name}
                         placeholder={this.props.placeholder}
                         type={this.props.type}
@@ -31,27 +33,35 @@ class Field extends Component {
                         />
                         :
                         this.props.type === "radio" ?
-                                this.props.options.map((optn, i) => {
+                            <div>
+                                <p className="form-check-inline">{this.props.tag}:</p>
+                                {this.props.options.map((optn, i) => {
                                     return (
-                                        <FormGroup  key={i}>
-                                            <Label >
-                                                <Input
+                                        <div className="form-check-inline" key={i}>
+                                            <label className="form-check-label" >
+                                                <input
+                                                    className="form-check-input"
                                                     type={this.props.type}
                                                     name={this.props.name}
                                                     value={optn}
-                                                    onClick={(e) => this.props.onChange(e)
-                                                    }
-                                                />{'  '+ optn}
-                                            </Label>
-                                        </FormGroup>
-                                    )})
-                            
+                                                    onClick={(e) => this.props.onChange(e)}
+                                                />{'  ' + optn}
+                                            </label>
+                                        </div>
+                                    )
+                                })}
+                            </div>
                             :
-                            null
+                            this.props.type === 'dropdown' ?
+
+                                <SelectDropDown details={this.props} />
+
+                                :
+                                null
                 }
-                <br/>
-                <br/>
-            </div>
+                <br />
+                <br />
+            </div >
         )
     }
 }
